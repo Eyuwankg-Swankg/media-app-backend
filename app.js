@@ -5,7 +5,6 @@ const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 
-
 // parsing incoming urls
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
