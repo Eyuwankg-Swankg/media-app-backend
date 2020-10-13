@@ -3,6 +3,7 @@ require("./.env");
 const express = require("express");
 const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
+const passport = require("passport");
 const app = express();
 
 // bring all the routes
@@ -21,6 +22,10 @@ mongoose.connect(
 // parsing incoming urls
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
+
+// implement passport-jwt
+app.use(passport.initialize());
+require("./passportJWT/passport_jwt")(passport);
 
 // use routes
 app.use("/auth", auth);

@@ -3,11 +3,11 @@ require("../.env");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 const jsonwebtoken = require("jsonwebtoken");
 
 // load Person model
 const Person = require("../models/Person");
-const { json } = require("body-parser");
 
 //@type      GET
 //@route     /auth/login
@@ -110,5 +110,17 @@ router.post("/register", (req, res) => {
       console.log("Error in checking for user while registering")
     );
 });
+
+//@type      GET
+//@route     /auth/profile
+//@desca     authenticated route to get users details
+//@access    PRIVATE
+router.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json({ user: req.user });
+  }
+);
 
 module.exports = { auth: router };

@@ -1,7 +1,7 @@
-person
-register
-passport-jwt
-login
+/person
+/register
+/passport-jwt
+/login
 profile
 profile update
 getting profile based on username
