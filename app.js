@@ -5,10 +5,6 @@ const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 
-// parsing incoming urls
-app.use(bodyparser.urlencoded({ extended: false }));
-app.use(bodyparser.json());
-
 // bring all the routes
 const { auth } = require("./routes/auth");
 
@@ -21,6 +17,10 @@ mongoose.connect(
   },
   () => console.log("DATABASE CONNECTED")
 );
+
+// parsing incoming urls
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
 
 // use routes
 app.use("/auth", auth);
