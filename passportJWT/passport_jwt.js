@@ -1,5 +1,5 @@
 require("dotenv/config");
-require("./.env");
+require("../.env");
 var JwtStrategy = require("passport-jwt").Strategy;
 var ExtractJwt = require("passport-jwt").ExtractJwt;
 
@@ -12,7 +12,7 @@ opts.secretOrKey = SECRET;
 module.exports = (passport) =>
   passport.use(
     new JwtStrategy(opts, function (jwt_payload, done) {
-      Person.findOne({ email: jwt_payload.email })
+      Person.findById(jwt_payload.id)
         .then((person) => {
           if (person) {
             return done(null, person);
