@@ -85,4 +85,21 @@ router.post(
   }
 );
 
+//@type      GET
+//@route     /profile/all
+//@desc      route to get all users profile
+//@access    PRIVATE
+router.get(
+  "/all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.find()
+      .then((profiles) => {
+        if (profiles) res.json(profiles);
+        else res.json({ noprofile: "No profiles" });
+      })
+      .catch((err) => console.log("Error While searching for all profiles"));
+  }
+);
+
 module.exports = router;
