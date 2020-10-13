@@ -26,7 +26,8 @@ router.post("/login", (req, res) => {
   const password = req.body.password;
   Person.findOne({ email })
     .then((person) => {
-      if (!person) return res.json({ loginError: "User not exists" });
+      if (!person)
+        return res.status(404).json({ loginError: "User not exists" });
       bcrypt.compare(password, person.password, (err, result) => {
         if (err) {
           throw err;
@@ -51,7 +52,7 @@ router.post("/login", (req, res) => {
             }
           );
         } else {
-          res.json({ passwordError: "Password does not match" });
+          res.status(400).json({ passwordError: "Password does not match" });
         }
       });
     })
@@ -76,7 +77,7 @@ router.post("/register", (req, res) => {
   Person.findOne({ email: req.body.email })
     .then((person) => {
       if (person) {
-        res.json({ alreadyexists: "User already Exists" });
+        res.status(400).json({ alreadyexists: "User already Exists" });
       } else {
         const newperson = {
           name: req.body.name,
