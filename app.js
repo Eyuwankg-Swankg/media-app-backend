@@ -9,6 +9,9 @@ const app = express();
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
+// bring all the routes
+const { auth } = require("./routes/auth");
+
 // connect to database
 mongoose.connect(
   `mongodb+srv://eyuwankg:${DATABASE_URL}@cluster0.p44rz.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
@@ -19,14 +22,15 @@ mongoose.connect(
   () => console.log("DATABASE CONNECTED")
 );
 
-// bring all the routes
-const { auth } = require("./routes/auth");
-
-// use all the routes
+// use routes
 app.use("/auth", auth);
 
+//@type      GET
+//@route     /
+//@desc      route to Home Page
+//@access    PUBLIC
 app.get("/", (req, res) => {
-  res.json({ homepage: "Implement Home Page" });
+  res.send("Implement Home Page");
 });
 
 app.listen(3000, () => console.log("App is Running at 3000"));
