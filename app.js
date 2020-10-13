@@ -8,6 +8,7 @@ const app = express();
 
 // bring all the routes
 const { auth } = require("./routes/auth");
+const profile = require("./routes/profile");
 
 // connect to database
 mongoose.connect(
@@ -29,6 +30,7 @@ require("./passportJWT/passport_jwt")(passport);
 
 // use routes
 app.use("/auth", auth);
+app.use("/profile", profile);
 
 //@type      GET
 //@route     /

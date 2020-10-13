@@ -2,7 +2,7 @@
 /register
 /passport-jwt
 /login
-profile
+/profile
 profile update
 getting profile based on username
 find all profile
