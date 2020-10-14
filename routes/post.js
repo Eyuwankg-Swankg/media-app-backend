@@ -1,6 +1,5 @@
 const express = require("express");
 const passport = require("passport");
-const bodyparser = require("body-parser");
 const router = express.Router();
 
 // load Post Model
@@ -23,6 +22,39 @@ router.post(
     savePost(post)
       .then((post) => res.json(post))
       .catch((err) => console.log("Error while saving post in DB"));
+  }
+);
+
+//@type      GET
+//@route     /post
+//@desc      route to get all the post
+//@access    PRIVATE
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.find()
+      .then((posts) => {
+        if (!posts) {
+          res.status(404).json({ nopost: "No Post Found" });
+        }
+        res.json(posts);
+      })
+      .catch((err) => console.log(err));
+  }
+);
+
+//@type      DELETE
+//@route     /post/delete/:id
+//@desc      route to delete a post
+//@access    PRIVATE
+router.delete(
+  "/delete/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findByIdAndDelete(req.params.id)
+      .then((post) => res.json(post))
+      .catch((err) => console.log("Error while deleting a post"));
   }
 );
 
