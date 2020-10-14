@@ -149,4 +149,28 @@ router.post(
   }
 );
 
+//@type      DELETE
+//@route     /profile/workrole/:id
+//@desc      route to delete a particular workrole
+//@access    PRIVATE
+router.delete(
+  "/workrole/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then((profile) => {
+        if (!profile) res.json({ notfound: "Profile not found" });
+        const Index = profile.workrole.findIndex(
+          (work) => work.id == req.params.id
+        );
+        profile.workrole.splice(Index, 1);
+        profile
+          .save()
+          .then((profile) => res.json(profile))
+          .catch((err) => "Error while deleting workrole and saving profile");
+      })
+      .catch((err) => console.log("Error while deleting workrole"));
+  }
+);
+
 module.exports = router;
