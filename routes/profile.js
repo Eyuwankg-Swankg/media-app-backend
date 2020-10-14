@@ -5,6 +5,9 @@ const passport = require("passport");
 // load Profile model
 const Profile = require("../models/Profile");
 
+// load Person model
+const Person = require("../models/Person");
+
 //@type      GET
 //@route     /profile
 //@desc      route to view user details
@@ -38,6 +41,7 @@ router.post(
       email: req.user.email,
       social: {},
     };
+    console.log(req.body);
     if (req.body.website) profileValues.website = req.body.website;
     if (req.body.country) profileValues.country = req.body.country;
     if (typeof req.body.languages != undefined)
@@ -73,9 +77,7 @@ router.post(
                   .then((profile) => {
                     return res.json(profile);
                   })
-                  .catch((err) =>
-                    console.log("Error while saving Profile in DB")
-                  );
+                  .catch((err) => console.log(err));
               }
             })
             .catch((err) => console.log("Error while searching in DB"));
@@ -173,4 +175,42 @@ router.delete(
   }
 );
 
+//@type      GET
+//@route     /profile/username
+//@desc      route to get users profile based on username
+//@access    PRIVATE
+router.get(
+  "/username/:username",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ username: req.params.username })
+      .then((profile) => {
+        if (!profile) res.json({ notfound: "Profile not found" });
+        res.json(profile);
+      })
+      .catch((err) =>
+        console.log("Error while getting user based on username")
+      );
+  }
+);
+
+//@type      GET
+//@route     /profile/user/:id
+//@desc      route to delete a user and his/her profile
+//@access    PRIVATE
+router.delete(
+  "/user/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOneAndDelete({ user: req.user.id })
+      .then((profile) => {
+        Person.findByIdAndDelete(req.user.id)
+          .then((person) => {
+            res.json({ success: "User and Profile Deleted Successfully" });
+          })
+          .catch((err) => console.log("Error while deleting a user"));
+      })
+      .catch((err) => console.log("Error while deleting  profile"));
+  }
+);
 module.exports = router;
