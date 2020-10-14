@@ -129,4 +129,57 @@ router.patch(
   }
 );
 
+//@type      PATCH
+//@route     /post/comment/:id
+//@desc      route to add comment to a  post
+//@access    PRIVATE
+router.patch(
+  "/comment/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.id)
+      .then((post) => {
+        if (!post) {
+          return res.status(404).json({ notfound: "Post Not Found" });
+        }
+        post.comments.unshift({
+          user: req.user.id,
+          text: req.body.text,
+        });
+        post
+          .save()
+          .then((post) => res.json(post))
+          .catch((err) => console.log("Error while saving comment in post "));
+      })
+      .catch((err) => console.like("Error while updating a comment in DB"));
+  }
+);
+
+//@type      DELETE
+//@route     /post/delcomment/:postid/:id
+//@desc      route to delete a comment in post
+//@access    PRIVATE
+router.delete(
+  "/delcomment/:postid/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.postid)
+      .then((post) => {
+        const commentIndex = post.comments.findIndex(
+          (comment) => comment.id == req.params.id
+        );
+        if (commentIndex == -1)
+          return res.json({ nocomment: "No Comment found" });
+        post.comments.splice(commentIndex, 1);
+        post
+          .save()
+          .then((post) => res.json(post))
+          .catch((err) =>
+            console.log("Error while saving post in DB after deleting comment")
+          );
+      })
+      .catch((err) => console.log("Error while searching for a post in DB"));
+  }
+);
+
 module.exports = router;
