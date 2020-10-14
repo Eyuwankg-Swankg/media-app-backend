@@ -58,4 +58,75 @@ router.delete(
   }
 );
 
+//@type      PATCH
+//@route     /post/like/:id
+//@desc      route to like a post
+//@access    PRIVATE
+router.patch(
+  "/like/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.id)
+      .then((post) => {
+        if (!post) {
+          return res.status(404).json({ notfound: "Post Not Found" });
+        }
+        const likeIndex = post.like.findIndex((i) => i.user == req.user.id);
+        const dislikeIndex = post.dislike.findIndex(
+          (i) => i.user == req.user.id
+        );
+        if (likeIndex != -1) post.like.splice(likeIndex, 1);
+        else {
+          if (dislikeIndex != -1) post.dislike.splice(dislikeIndex, 1);
+          post.like.unshift({ user: req.user.id });
+        }
+        post
+          .save()
+          .then((post) => res.json(post))
+          .catch((err) =>
+            console.log("Error in saving post after updating like")
+          );
+      })
+      .catch((err) =>
+        console.console.log("Error while updating a likes to a post ")
+      );
+  }
+);
+
+//@type      PATCH
+//@route     /post/dislike/:id
+//@desc      route to dislike a post
+//@access    PRIVATE
+router.patch(
+  "/dislike/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.id)
+      .then((post) => {
+        if (!post) {
+          return res.status(404).json({ notfound: "Post Not Found" });
+        }
+        const dislikeIndex = post.dislike.findIndex(
+          (i) => i.user == req.user.id
+        );
+        const likeIndex = post.like.findIndex((i) => i.user == req.user.id);
+        if (dislikeIndex != -1) {
+          post.dislike.splice(dislikeIndex, 1);
+        } else {
+          if (likeIndex != -1) post.like.splice(likeIndex, 1);
+          post.dislike.unshift({ user: req.user.id });
+        }
+        post
+          .save()
+          .then((post) => res.json(post))
+          .catch((err) =>
+            console.log("Error in saving post after updating dislike")
+          );
+      })
+      .catch((err) =>
+        console.console.log("Error while updating a dislikes to a post ")
+      );
+  }
+);
+
 module.exports = router;
