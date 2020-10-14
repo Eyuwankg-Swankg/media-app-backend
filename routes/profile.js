@@ -102,4 +102,34 @@ router.get(
   }
 );
 
+//@type      POST
+//@route     /profile/workrole
+//@desc      route to update workrole
+//@access    PRIVATE
+router.post(
+  "/workrole",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const work = {
+      role: req.body.role,
+    };
+    if (req.body.company) work.company = req.body.company;
+    if (req.body.country) work.country = req.body.country;
+    if (req.body.from) work.from = req.body.from;
+    if (req.body.to) work.to = req.body.to;
+    if (req.body.current) work.current = req.body.current;
+    if (req.body.details) work.details = req.body.details;
+    Profile.findOne({ user: req.user.id })
+      .then((profile) => {
+        if (!profile) res.status(404).json({ notfound: "Profile Not Found" });
+        profile.workrole.unshift(work);
+        profile
+          .save()
+          .then((profile) => res.json(profile))
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log("Error while updating workrole"));
+  }
+);
+
 module.exports = router;
