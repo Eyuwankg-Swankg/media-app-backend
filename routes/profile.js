@@ -86,6 +86,23 @@ router.post(
 );
 
 //@type      GET
+//@route     /profile/user/:id
+//@desc      route to get profile based on route
+//@access    PRIVATE
+router.get(
+  "/user/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.params.id })
+      .then((profile) => {
+        if (!profile) res.json({ notfound: "Profile not found" });
+        res.json(profile);
+      })
+      .catch((err) => console.log("Error while getting profile based on id"));
+  }
+);
+
+//@type      GET
 //@route     /profile/all
 //@desc      route to get all users profile
 //@access    PRIVATE
