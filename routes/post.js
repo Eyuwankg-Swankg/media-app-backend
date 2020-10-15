@@ -219,4 +219,41 @@ router.put(
   }
 );
 
+//@type      PUT
+//@route     /post/dislikecomment/:postid/:commentid
+//@desc      route to dislike a comment in a post
+//@access    PRIVATE
+router.put(
+  "/dislikecomment/:postid/:commentid",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.postid)
+      .then((post) => {
+        const commentIndex = post.comments.findIndex(
+          (comment) => comment.id == req.params.commentid
+        );
+        const likeIndex = post.comments[commentIndex].like.findIndex(
+          (like) => like.user == req.user.id
+        );
+        const dislikeIndex = post.comments[commentIndex].dislike.findIndex(
+          (dislike) => dislike.user == req.user.id
+        );
+        if (dislikeIndex != -1) {
+          post.comments[commentIndex].dislike.splice(dislikeIndex, 1);
+        } else {
+          if (likeIndex != -1)
+            post.comments[commentIndex].like.splice(likeIndex, 1);
+          post.comments[commentIndex].dislike.unshift({ user: req.user.id });
+        }
+        post
+          .save()
+          .then((post) => res.json(post))
+          .catch((err) =>
+            console.log("Error while updating dislikes in post comment")
+          );
+      })
+      .catch((err) => console.log(err));
+  }
+);
+
 module.exports = router;
