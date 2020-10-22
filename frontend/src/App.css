@@ -1,14 +1,17 @@
+body {
+  font-size: 10px;
+}
 .header {
   background-color: #d69559;
 }
 .header a {
   color: snow;
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 0.2rem;
   cursor: pointer;
 }
 
-/* Sign In */
+/* Sign In Sign Up*/
 .signin {
   background-color: #d69559ec;
   width: 100%;
@@ -18,16 +21,17 @@
   align-items: center;
 }
 .signin > div {
-  width: 30%;
-  height: 60vh;
+  width: 25rem;
+  height: 25rem;
   background-color: snow;
-  box-shadow: 5px 5px 30px #4444449a;
-  border-radius: 10px;
-  padding: 10px;
+  box-shadow: 0.5rem 0.5rem 2rem #4444449a;
+  border-radius: 1rem;
+  padding: 1rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
+  font-size: 1.1rem;
 }
 #signin-form {
   width: 100%;
