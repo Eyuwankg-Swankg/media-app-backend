@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
-
+import { connect } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { signin } from "../redux/actions/authActions";
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -10,13 +13,30 @@ class SignIn extends Component {
     };
     this.onsubmit = this.onsubmit.bind(this);
   }
-  onsubmit(e) {
+  async onsubmit(e) {
     e.preventDefault();
+    const data = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    const a = await this.props.signinInUser(data);
+    try {
+      toast(a.msg, { type: "error" });
+    } catch (error) {
+      toast("Success", { type: "success" });
+    }
   }
   render() {
     return (
       <div className="signin">
         <div>
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={true}
+            newestOnTop={true}
+            closeOnClick
+          />
           <Form id="signin-form" onSubmit={this.onsubmit}>
             <FormGroup>
               <Label
@@ -82,5 +102,12 @@ class SignIn extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({});
 
-export default SignIn;
+const mapDispatchToProps = (dispatch) => ({
+  signinInUser: async (data) => {
+    return await signin(dispatch, data);
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

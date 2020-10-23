@@ -3,7 +3,7 @@ import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { connect } from "react-redux";
-import { signup } from "../redux/actions/authActions";
+import { signup } from "./../redux/actions/authActions";
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +34,7 @@ class SignUp extends Component {
       <div>
         <ToastContainer
           position="top-right"
-          autoClose={5000}
+          autoClose={3000}
           hideProgressBar={true}
           newestOnTop={true}
           closeOnClick

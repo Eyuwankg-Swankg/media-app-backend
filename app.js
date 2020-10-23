@@ -4,6 +4,7 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const cors = require("cors");
 const app = express();
 
 // bring all the routes
@@ -22,8 +23,9 @@ mongoose.connect(
 );
 
 // parsing incoming urls
-app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
+app.use(cors());
 
 // implement passport-jwt
 app.use(passport.initialize());

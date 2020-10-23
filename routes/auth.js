@@ -26,8 +26,7 @@ router.post("/login", (req, res) => {
   const password = req.body.password;
   Person.findOne({ email })
     .then((person) => {
-      if (!person)
-        return res.status(404).json({ loginError: "User not exists" });
+      if (!person) return res.json({ msg: "User not exists" });
       bcrypt.compare(password, person.password, (err, result) => {
         if (err) {
           throw err;
@@ -38,6 +37,8 @@ router.post("/login", (req, res) => {
             name: person.name,
             email: person.email,
           };
+          const data = { ...person._doc };
+          delete data.password;
           jsonwebtoken.sign(
             payload,
             SECRET,
@@ -48,11 +49,12 @@ router.post("/login", (req, res) => {
               }
               res.json({
                 token: "Nodejs " + token,
+                data,
               });
             }
           );
         } else {
-          res.status(400).json({ passwordError: "Password does not match" });
+          res.json({ msg: "Password does not match" });
         }
       });
     })
@@ -76,8 +78,9 @@ router.get("/register", (req, res) => {
 router.post("/register", (req, res) => {
   Person.findOne({ email: req.body.email })
     .then((person) => {
+      console.log("person");
       if (person) {
-        res.status(400).json({ alreadyexists: "User already Exists" });
+        return res.json({ msg: "User already Exists" });
       } else {
         const newperson = {
           name: req.body.name,
@@ -100,9 +103,25 @@ router.post("/register", (req, res) => {
               .save()
               .then((person) => {
                 console.log("Saved to Database");
-                res.json(person);
+                const payload = { ...person._doc };
+                const data = { ...payload };
+                delete data.password;
+                jsonwebtoken.sign(
+                  payload,
+                  SECRET,
+                  { expiresIn: 60 * 60 },
+                  (err, token) => {
+                    if (err) {
+                      console.log(err);
+                    }
+                    res.json({
+                      token: "Nodejs " + token,
+                      data: data,
+                    });
+                  }
+                );
               })
-              .catch((err) => console.log("Error while registering"));
+              .catch((err) => console.log("Error while registering", err));
           });
         });
       }
