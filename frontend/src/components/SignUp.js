@@ -1,29 +1,44 @@
 import React, { Component } from "react";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { connect } from "react-redux";
 import { signup } from "../redux/actions/authActions";
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "eyuwankg",
-      email: "eyuwankg@gmail.com",
-      password: "eyuwankg",
+      name: "",
+      email: "",
+      password: "",
     };
     this.onsubmit = this.onsubmit.bind(this);
   }
-  onsubmit(e) {
+  async onsubmit(e) {
     e.preventDefault();
     const data = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
     };
-    this.props.signUpUser(data);
+    var a;
+    a = await this.props.signUpUser(data);
+    try {
+      toast(a.msg, { type: "error" });
+    } catch (error) {
+      toast("Success", { type: "success" });
+    }
   }
   render() {
     return (
       <div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={true}
+          newestOnTop={true}
+          closeOnClick
+        />
         <div className="signin">
           <div>
             <Form id="signin-form" onSubmit={this.onsubmit}>
@@ -113,10 +128,10 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => {};
 const mapDispatchToProps = (dispatch) => ({
-  signUpUser: (data) => {
-    signup(dispatch, data);
+  signUpUser: async (data) => {
+    return await signup(dispatch, data);
   },
 });
 
