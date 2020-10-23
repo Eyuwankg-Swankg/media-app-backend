@@ -1,18 +1,25 @@
 import React, { Component } from "react";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
-
+import { connect } from "react-redux";
+import { signup } from "../redux/actions/authActions";
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      email: "",
-      password: "",
+      name: "eyuwankg",
+      email: "eyuwankg@gmail.com",
+      password: "eyuwankg",
     };
     this.onsubmit = this.onsubmit.bind(this);
   }
   onsubmit(e) {
     e.preventDefault();
+    const data = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+    };
+    this.props.signUpUser(data);
   }
   render() {
     return (
@@ -106,4 +113,11 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  signUpUser: (data) => {
+    signup(dispatch, data);
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
