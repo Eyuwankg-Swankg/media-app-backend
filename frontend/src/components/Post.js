@@ -3,6 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
 import Sherlock from "../Sherlock.png";
 import { BiLike, BiDislike } from "react-icons/bi";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { FaRegComment } from "react-icons/fa";
 import { connect } from "react-redux";
 import { addLike, addDislike } from "../redux/actions/postActions";
 class Post extends Component {
@@ -11,9 +12,11 @@ class Post extends Component {
     this.state = {
       like: false,
       dislike: false,
+      comment: false,
     };
     this.updateDislike = this.updateDislike.bind(this);
     this.updateLike = this.updateLike.bind(this);
+    this.showComment = this.showComment.bind(this);
   }
   componentWillMount() {
     console.log(this.props.post);
@@ -56,6 +59,12 @@ class Post extends Component {
       });
     }
   }
+  showComment() {
+    const commentModal = {
+      opacity: this.state.comment ? 1 : 0,
+      visibility: this.state.comment ? "visible" : "hidden",
+    };
+  }
   render() {
     return (
       <Card id="post">
@@ -81,6 +90,7 @@ class Post extends Component {
           ) : (
             <BiDislike onClick={this.updateDislike} />
           )}
+          <FaRegComment onClick={this.showComment} />
         </div>
       </Card>
     );

@@ -1,15 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  Button,
-  Spinner,
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-} from "reactstrap";
+import { Spinner } from "reactstrap";
 import { getPosts } from "./../redux/actions/postActions";
 import Header from "./Header";
 import Post from "./Post";
