@@ -32,11 +32,11 @@ router.post(
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => {
+  (req, res ) => {
     Post.find()
       .then((posts) => {
         if (!posts) {
-          res.status(404).json({ nopost: "No Post Found" });
+          res.json([]);
         }
         res.json(posts);
       })
