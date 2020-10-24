@@ -60,12 +60,13 @@ class Post extends Component {
     }
   }
   showComment() {
+    this.setState({ comment: true });
+  }
+  render() {
     const commentModal = {
       opacity: this.state.comment ? 1 : 0,
       visibility: this.state.comment ? "visible" : "hidden",
     };
-  }
-  render() {
     return (
       <Card id="post">
         <CardImg
@@ -91,6 +92,9 @@ class Post extends Component {
             <BiDislike onClick={this.updateDislike} />
           )}
           <FaRegComment onClick={this.showComment} />
+        </div>
+        <div id="comment-modal" style={commentModal}>
+          Hi
         </div>
       </Card>
     );
