@@ -1,15 +1,10 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-} from "reactstrap";
+import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
 import Sherlock from "../Sherlock.png";
 import { BiLike, BiDislike } from "react-icons/bi";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { connect } from "react-redux";
+import { addLike, addDislike } from "../redux/actions/postActions";
 class Post extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +12,8 @@ class Post extends Component {
       like: false,
       dislike: false,
     };
+    this.updateDislike = this.updateDislike.bind(this);
+    this.updateLike = this.updateLike.bind(this);
   }
   componentWillMount() {
     console.log(this.props.post);
@@ -31,6 +28,32 @@ class Post extends Component {
       if (index != -1) this.setState({ dislike: true });
     } else {
       this.setState({ like: true });
+    }
+  }
+  updateDislike() {
+    this.props.ARdislike(
+      this.props.post._id,
+      this.props.userToken,
+      this.props.index
+    );
+    if (this.state.like) {
+      this.setState({ dislike: !this.state.dislike, like: !this.state.like });
+    } else {
+      this.setState({ dislike: !this.state.dislike });
+    }
+  }
+  updateLike() {
+    this.props.ARlike(
+      this.props.post._id,
+      this.props.userToken,
+      this.props.index
+    );
+    if (this.state.dislike) {
+      this.setState({ dislike: !this.state.dislike, like: !this.state.like });
+    } else {
+      this.setState({
+        like: !this.state.like,
+      });
     }
   }
   render() {
@@ -48,11 +71,15 @@ class Post extends Component {
           <CardText>{this.props.post.caption}</CardText>
         </CardBody>
         <div id="post-props">
-          {this.state.like ? <AiFillLike fill="#d69559" /> : <BiLike />}
-          {this.state.dislike ? (
-            <AiFillDislike fill="#d69559" />
+          {this.state.like ? (
+            <AiFillLike fill="#d69559" onClick={this.updateLike} />
           ) : (
-            <BiDislike />
+            <BiLike onClick={this.updateLike} />
+          )}
+          {this.state.dislike ? (
+            <AiFillDislike fill="#d69559" onClick={this.updateDislike} />
+          ) : (
+            <BiDislike onClick={this.updateDislike} />
           )}
         </div>
       </Card>
@@ -60,4 +87,19 @@ class Post extends Component {
   }
 }
 
-export default Post;
+const mapStateToProps = (state) => ({
+  userToken: state.auth.token,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  ARlike: (id, token, index) => {
+    addLike(dispatch, id, token, index);
+    return;
+  },
+  ARdislike: (id, token, index) => {
+    addDislike(dispatch, id, token, index);
+    return;
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

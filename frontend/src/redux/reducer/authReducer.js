@@ -1,7 +1,7 @@
 import { SIGNIN, SIGNUP, LOGGEDIN } from "../actions/types";
 const initialState = {
   token:
-    "Nodejs eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmOTMyZWQ0ODA5YWFlMmQwNDA2ZDFiMCIsIm5hbWUiOiJrYXJ0aGlrIiwiZW1haWwiOiJrYXJ0aGlrQGdtYWlsLmNvbSIsImlhdCI6MTYwMzU1MDg1NCwiZXhwIjoxNjAzNTU0NDU0fQ.QUjgmxL9qJLbxq8y4oVmNf5J7ujpQPfNjXqCtycylHo",
+    "Nodejs eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmOTMyZWQ0ODA5YWFlMmQwNDA2ZDFiMCIsIm5hbWUiOiJrYXJ0aGlrIiwiZW1haWwiOiJrYXJ0aGlrQGdtYWlsLmNvbSIsImlhdCI6MTYwMzU3Mjg3MSwiZXhwIjoxNjAzNTc2NDcxfQ.F8fLLhOjaje6-S8uUijdw8qDZvdwarAqddQjNUOq0xs",
   data: {
     profilePic: "../public/user.png",
     gender: "",

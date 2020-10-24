@@ -32,7 +32,7 @@ router.post(
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
-  (req, res ) => {
+  (req, res) => {
     Post.find()
       .then((posts) => {
         if (!posts) {
@@ -69,7 +69,7 @@ router.patch(
     Post.findById(req.params.id)
       .then((post) => {
         if (!post) {
-          return res.status(404).json({ notfound: "Post Not Found" });
+          return res.json({ msg: "Post Not Found" });
         }
         const likeIndex = post.like.findIndex((i) => i.user == req.user.id);
         const dislikeIndex = post.dislike.findIndex(

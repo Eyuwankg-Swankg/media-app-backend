@@ -42,7 +42,12 @@ class Home extends Component {
         </div>
         <div className="post-div">
           {this.props.posts.map((post, index) => (
-            <Post post={post} key={index} id={this.props.userId} />
+            <Post
+              post={post}
+              key={index}
+              id={this.props.userId}
+              index={index}
+            />
           ))}
         </div>
       </div>
