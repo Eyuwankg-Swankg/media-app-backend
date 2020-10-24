@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Collapse,
   Navbar,
@@ -29,14 +30,22 @@ class Header extends Component {
           <NavbarBrand href="/">SocialMedia</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem className="mr-5">
-                <NavLink>Sign In</NavLink>
-              </NavItem>
-              <NavItem className="mr-5">
-                <NavLink>Login In</NavLink>
-              </NavItem>
-            </Nav>
+            {this.props.userToken == "" ? (
+              <Nav className="ml-auto" navbar>
+                <NavItem className="mr-5">
+                  <NavLink>Sign In</NavLink>
+                </NavItem>
+                <NavItem className="mr-5">
+                  <NavLink>Login In</NavLink>
+                </NavItem>
+              </Nav>
+            ) : (
+              <Nav className="ml-auto" navbar>
+                <NavItem className="mr-5">
+                  <NavLink>Logout</NavLink>
+                </NavItem>
+              </Nav>
+            )}
           </Collapse>
         </Navbar>
       </div>
@@ -44,4 +53,10 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+  userToken: state.auth.token,
+});
+
+const mapDispatchToProps = (dispatch) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
