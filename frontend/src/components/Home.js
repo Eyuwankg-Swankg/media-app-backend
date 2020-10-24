@@ -40,9 +40,11 @@ class Home extends Component {
             size="lg"
           />
         </div>
-        {this.props.posts.map((post,index) => (
-          <Post post={post} key={index}/>
-        ))}
+        <div className="post-div">
+          {this.props.posts.map((post, index) => (
+            <Post post={post} key={index} id={this.props.userId} />
+          ))}
+        </div>
       </div>
     );
   }
@@ -52,6 +54,7 @@ const mapStateToProps = (state) => ({
   userToken: state.auth.token,
   isLoaded: state.post.isLoading,
   posts: state.post.posts,
+  userId: state.auth.data._id,
 });
 
 const mapDispatchToProps = (dispatch) => ({
