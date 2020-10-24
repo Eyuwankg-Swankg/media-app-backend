@@ -31,7 +31,6 @@ export const signin = async (dispatch, data) => {
     .catch((err) => console.log("axios error", err));
   if (a.data.msg) return a.data;
   else {
-    console.log(a.data);
     dispatch({
       type: LOGGEDIN,
       payload: { token: a.data.token, data: a.data.data },
