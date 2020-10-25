@@ -61,11 +61,12 @@ body {
 
 .post-div {
   width: 100%;
-  height: 90vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem;
+  background-color: red;
 }
 
 .post-img {
@@ -94,9 +95,47 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.8);
+  flex-direction: column;
+  background-color: rgba(253, 253, 253, 1);
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: absolute;
+  top: 0;
   z-index: 1;
+}
+
+#comment-modal-top {
+  width: 100%;
+  height: 10%;
+  display: grid;
+  grid-template-columns: 90% 10%;
+  border-bottom: 1px solid #d69559;
+}
+#comment-modal-top p {
+  text-align: center;
+  font-weight: bold;
+}
+
+#comment-modal-middle {
+  height: 80%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+#comment-modal-bottom {
+  width: 90%;
+  height: 10%;
+}
+
+.ith-comment {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  border-bottom: 1px solid #d69559;
+  padding: 0rem 1rem;
+}
+
+.ith-comment div {
+  display: flex;
+  justify-content: space-around;
 }

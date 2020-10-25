@@ -32,16 +32,16 @@ class Header extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             {this.props.userToken == "" ? (
               <Nav className="ml-auto" navbar>
-                <NavItem className="mr-5">
+                <NavItem className="mr-3">
                   <NavLink>Sign In</NavLink>
                 </NavItem>
-                <NavItem className="mr-5">
+                <NavItem className="mr-3">
                   <NavLink>Login In</NavLink>
                 </NavItem>
               </Nav>
             ) : (
               <Nav className="ml-auto" navbar>
-                <NavItem className="mr-5">
+                <NavItem className="mr-3">
                   <NavLink>Logout</NavLink>
                 </NavItem>
               </Nav>

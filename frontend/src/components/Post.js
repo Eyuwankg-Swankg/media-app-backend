@@ -1,9 +1,20 @@
 import React, { Component } from "react";
-import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+} from "reactstrap";
 import Sherlock from "../Sherlock.png";
 import { BiLike, BiDislike } from "react-icons/bi";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
+import { RiCloseCircleLine } from "react-icons/ri";
 import { connect } from "react-redux";
 import { addLike, addDislike } from "../redux/actions/postActions";
 class Post extends Component {
@@ -12,7 +23,7 @@ class Post extends Component {
     this.state = {
       like: false,
       dislike: false,
-      comment: false,
+      comment: true,
     };
     this.updateDislike = this.updateDislike.bind(this);
     this.updateLike = this.updateLike.bind(this);
@@ -60,7 +71,7 @@ class Post extends Component {
     }
   }
   showComment() {
-    this.setState({ comment: true });
+    this.setState({ comment: !this.state.comment });
   }
   render() {
     const commentModal = {
@@ -94,7 +105,29 @@ class Post extends Component {
           <FaRegComment onClick={this.showComment} />
         </div>
         <div id="comment-modal" style={commentModal}>
-          Hi
+          <div id="comment-modal-top">
+            <p> Comments </p>
+            <RiCloseCircleLine onClick={this.showComment} />
+          </div>
+          <div id="comment-modal-middle">
+            {this.props.post.comments.map((comment, index) => (
+              <div className="ith-comment">
+                <p>{comment.text}</p>
+                <div>
+                  <BiLike />
+                  <BiDislike />
+                </div>
+              </div>
+            ))}
+          </div>
+          <div id="comment-modal-bottom">
+            <InputGroup>
+              <Input />
+              <InputGroupAddon addonType="append">
+                <InputGroupText>Send</InputGroupText>
+              </InputGroupAddon>
+            </InputGroup>
+          </div>
         </div>
       </Card>
     );

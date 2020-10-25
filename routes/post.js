@@ -82,7 +82,7 @@ router.patch(
         }
         post
           .save()
-          .then((post) => res.json(post))
+          .then((post) => res.redirect("/post"))
           .catch((err) =>
             console.log("Error in saving post after updating like")
           );
