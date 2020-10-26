@@ -53,7 +53,11 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Post.findByIdAndDelete(req.params.id)
-      .then((post) => res.json(post))
+      .then((post) => {
+        Post.find()
+          .then((posts) => res.json(posts))
+          .catch((err) => console.log("Error ", err));
+      })
       .catch((err) => console.log("Error while deleting a post"));
   }
 );
@@ -156,7 +160,11 @@ router.patch(
         });
         post
           .save()
-          .then((post) => res.json(post))
+          .then((post) => {
+            Post.find()
+              .then((posts) => res.json(posts))
+              .catch(err=>console.log(err));
+          })
           .catch((err) => console.log("Error while saving comment in post "));
       })
       .catch((err) => console.like("Error while updating a comment in DB"));

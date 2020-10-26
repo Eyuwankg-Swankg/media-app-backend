@@ -4,7 +4,7 @@ import {
   LOADED,
   ADD_LIKE,
   ADD_DISLIKE,
-  DELETE_POST,
+  DELETE_POST,ADD_COMMENT
 } from "../actions/types";
 import axios from "axios";
 export const getPosts = async (dispatch, token) => {
@@ -75,4 +75,23 @@ export const deletePostAction = (dispatch, id, token) => {
   return;
 };
 
-export const addCommentAction = (dispatch, id, token) => {};
+export const addCommentAction = (dispatch, id, token, text) => {
+  const a = axios
+    .patch(
+      `http://localhost:5000/post/comment/${id}`,
+      { text },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+    .then((posts) => {
+      dispatch({
+        type: ADD_COMMENT,
+        payload: posts.data,
+      });
+    })
+    .catch((err) => console.log("Error ", err));
+  return;
+};

@@ -7,3 +7,4 @@ export const LOADED = "LOADED";
 export const ADD_LIKE = "ADD_LIKE";
 export const ADD_DISLIKE = "ADD_LADD_DISLIKEIKE";
 export const DELETE_POST = "DELETE_POST";
+export const ADD_COMMENT = "ADD_COMMENT";
