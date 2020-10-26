@@ -12,11 +12,16 @@ import {
 } from "reactstrap";
 import Sherlock from "../Sherlock.png";
 import { BiLike, BiDislike } from "react-icons/bi";
-import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { AiFillLike, AiFillDislike, AiOutlineDelete } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { RiCloseCircleLine } from "react-icons/ri";
 import { connect } from "react-redux";
-import { addLike, addDislike } from "../redux/actions/postActions";
+import {
+  addLike,
+  addDislike,
+  deletePostAction,
+  addCommentAction,
+} from "../redux/actions/postActions";
 class Post extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +29,7 @@ class Post extends Component {
       like: false,
       dislike: false,
       comment: false,
+      commentText: "",
     };
     this.updateDislike = this.updateDislike.bind(this);
     this.updateLike = this.updateLike.bind(this);
@@ -80,6 +86,18 @@ class Post extends Component {
     };
     return (
       <Card id="post">
+        <div>
+          <p></p>
+          {this.props.post.user == this.props.userData._id ? (
+            <AiOutlineDelete
+              onClick={() =>
+                this.props.deletePost(this.props.post._id, this.props.userToken)
+              }
+            />
+          ) : (
+            <></>
+          )}
+        </div>
         <CardImg
           top
           width="100%"
@@ -136,6 +154,7 @@ class Post extends Component {
 
 const mapStateToProps = (state) => ({
   userToken: state.auth.token,
+  userData: state.auth.data,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -146,6 +165,12 @@ const mapDispatchToProps = (dispatch) => ({
   ARdislike: (id, token, index) => {
     addDislike(dispatch, id, token, index);
     return;
+  },
+  deletePost: (id, token) => {
+    deletePostAction(dispatch, id, token);
+  },
+  addComment: (id, token) => {
+    addCommentAction(dispatch, id, token);
   },
 });
 

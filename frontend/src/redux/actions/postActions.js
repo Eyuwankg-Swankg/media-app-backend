@@ -4,6 +4,7 @@ import {
   LOADED,
   ADD_LIKE,
   ADD_DISLIKE,
+  DELETE_POST,
 } from "../actions/types";
 import axios from "axios";
 export const getPosts = async (dispatch, token) => {
@@ -56,3 +57,22 @@ export const addDislike = async (dispatch, id, token, index) => {
   });
   return;
 };
+
+export const deletePostAction = (dispatch, id, token) => {
+  axios
+    .delete(`http://localhost:5000/post/delete/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then((posts) => {
+      dispatch({
+        type: DELETE_POST,
+        payload: posts.data,
+      });
+    })
+    .catch((err) => console.log("Axios Error", err));
+  return;
+};
+
+export const addCommentAction = (dispatch, id, token) => {};

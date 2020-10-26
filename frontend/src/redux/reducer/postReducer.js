@@ -4,6 +4,7 @@ import {
   LOADED,
   ADD_DISLIKE,
   ADD_LIKE,
+  DELETE_POST,
 } from "../actions/types";
 const initialState = {
   posts: [],
@@ -23,6 +24,7 @@ export default function (state = initialState, action) {
       return { ...state, isLoading: false };
     case ADD_DISLIKE:
     case ADD_LIKE:
+    case DELETE_POST:
       return {
         ...state,
         posts: action.payload,
