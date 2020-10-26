@@ -34,6 +34,7 @@ class Post extends Component {
     this.updateDislike = this.updateDislike.bind(this);
     this.updateLike = this.updateLike.bind(this);
     this.showComment = this.showComment.bind(this);
+    this.callAddComment = this.callAddComment.bind(this);
   }
   componentWillMount() {
     console.log(this.props.post);
@@ -78,6 +79,14 @@ class Post extends Component {
   }
   showComment() {
     this.setState({ comment: !this.state.comment });
+  }
+  callAddComment() {
+    this.props.addComment(
+      this.props.post._id,
+      this.props.userToken,
+      this.state.commentText
+    );
+    this.setState({ commentText: "" });
   }
   render() {
     const commentModal = {
@@ -140,9 +149,14 @@ class Post extends Component {
           </div>
           <div id="comment-modal-bottom">
             <InputGroup>
-              <Input />
+              <Input
+                value={this.state.commentText}
+                onChange={(e) => this.setState({ commentText: e.target.value })}
+              />
               <InputGroupAddon addonType="append">
-                <InputGroupText>Send</InputGroupText>
+                <InputGroupText onClick={this.callAddComment}>
+                  Send
+                </InputGroupText>
               </InputGroupAddon>
             </InputGroup>
           </div>
@@ -169,8 +183,8 @@ const mapDispatchToProps = (dispatch) => ({
   deletePost: (id, token) => {
     deletePostAction(dispatch, id, token);
   },
-  addComment: (id, token) => {
-    addCommentAction(dispatch, id, token);
+  addComment: (id, token, text) => {
+    addCommentAction(dispatch, id, token, text);
   },
 });
 
