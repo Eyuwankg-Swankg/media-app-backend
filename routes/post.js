@@ -82,7 +82,11 @@ router.patch(
         }
         post
           .save()
-          .then((post) => res.redirect("/post"))
+          .then((post) => {
+            Post.find()
+              .then((posts) => res.json(posts))
+              .catch((err) => console.log("error", err));
+          })
           .catch((err) =>
             console.log("Error in saving post after updating like")
           );
@@ -118,7 +122,11 @@ router.patch(
         }
         post
           .save()
-          .then((post) => res.json(post))
+          .then((post) => {
+            Post.find()
+              .then((posts) => res.json(posts))
+              .catch((err) => console.log("error", err));
+          })
           .catch((err) =>
             console.log("Error in saving post after updating dislike")
           );
@@ -140,7 +148,7 @@ router.patch(
     Post.findById(req.params.id)
       .then((post) => {
         if (!post) {
-          return res.status(404).json({ notfound: "Post Not Found" });
+          return res.json({ msg: "Post Not Found" });
         }
         post.comments.unshift({
           user: req.user.id,

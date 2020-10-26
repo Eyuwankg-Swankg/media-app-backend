@@ -33,10 +33,7 @@ export const addLike = async (dispatch, id, token, index) => {
     .catch((err) => console.log("axios error", err));
   dispatch({
     type: ADD_LIKE,
-    payload: {
-      index,
-      post: a.data,
-    },
+    payload: a.data,
   });
   return;
 };
@@ -55,10 +52,7 @@ export const addDislike = async (dispatch, id, token, index) => {
     .catch((err) => console.log("axios error", err));
   dispatch({
     type: ADD_DISLIKE,
-    payload: {
-      index,
-      post: a.data,
-    },
+    payload: a.data,
   });
   return;
 };
