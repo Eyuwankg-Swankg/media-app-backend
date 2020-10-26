@@ -25,12 +25,7 @@ export default function (state = initialState, action) {
     case ADD_LIKE:
       return {
         ...state,
-        posts: state.posts
-          .slice(0, action.payload.index)
-          .concat(
-            [action.payload.post],
-            state.posts.slice(action.payload.index + 1, state.posts.length)
-          ),
+        posts: action.payload,
       };
     default:
       return state;
