@@ -18,9 +18,12 @@ import { RiCloseCircleLine } from "react-icons/ri";
 import { connect } from "react-redux";
 import {
   addLike,
+  deleteCommentAction,
   addDislike,
   deletePostAction,
   addCommentAction,
+  likeCommentAction,
+  disLikeCommentAction,
 } from "../redux/actions/postActions";
 class Post extends Component {
   constructor(props) {
@@ -28,7 +31,7 @@ class Post extends Component {
     this.state = {
       like: false,
       dislike: false,
-      comment: false,
+      comment: true,
       commentText: "",
     };
     this.updateDislike = this.updateDislike.bind(this);
@@ -88,11 +91,15 @@ class Post extends Component {
     );
     this.setState({ commentText: "" });
   }
+  deleteComment(id) {
+    this.props.deletePostComment(this.props.userToken, this.props.post._id, id);
+  }
   render() {
     const commentModal = {
       opacity: this.state.comment ? 1 : 0,
       visibility: this.state.comment ? "visible" : "hidden",
     };
+    console.log(this.props.userData);
     return (
       <Card id="post">
         <div>
@@ -141,13 +148,68 @@ class Post extends Component {
               <div className="ith-comment">
                 <p>{comment.text}</p>
                 {comment.user == this.props.userData._id ? (
-                  <AiOutlineDelete />
+                  <AiOutlineDelete
+                    onClick={() =>
+                      this.props.deletePostComment(
+                        this.props.userToken,
+                        this.props.post._id,
+                        comment._id
+                      )
+                    }
+                  />
                 ) : (
                   <></>
                 )}
+                {/* TODO: Add Like and Dislike feature */}
                 <div>
-                  <BiLike />
-                  <BiDislike />
+                  {comment.like.findIndex(
+                    (like) => like.user == this.props.userData._id
+                  ) != -1 ? (
+                    <AiFillLike
+                      fill="#d69559"
+                      onClick={() => {
+                        this.props.likeComment(
+                          this.props.userToken,
+                          this.props.post._id,
+                          comment._id
+                        );
+                      }}
+                    />
+                  ) : (
+                    <BiLike
+                      onClick={() => {
+                        this.props.likeComment(
+                          this.props.userToken,
+                          this.props.post._id,
+                          comment._id
+                        );
+                      }}
+                    />
+                  )}
+                  {comment.dislike.findIndex(
+                    (dislike) => dislike.user == this.props.userData._id
+                  ) != -1 ? (
+                    <AiFillDislike
+                      fill="#d69559"
+                      onClick={() => {
+                        this.props.disLikeComment(
+                          this.props.userToken,
+                          this.props.post._id,
+                          comment._id
+                        );
+                      }}
+                    />
+                  ) : (
+                    <BiDislike
+                      onClick={() => {
+                        this.props.disLikeComment(
+                          this.props.userToken,
+                          this.props.post._id,
+                          comment._id
+                        );
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             ))}
@@ -190,6 +252,15 @@ const mapDispatchToProps = (dispatch) => ({
   },
   addComment: (id, token, text) => {
     addCommentAction(dispatch, id, token, text);
+  },
+  deletePostComment: (token, postId, id) => {
+    deleteCommentAction(dispatch, token, postId, id);
+  },
+  likeComment: (token, postId, id) => {
+    likeCommentAction(dispatch, token, postId, id);
+  },
+  disLikeComment: (token, postId, id) => {
+    disLikeCommentAction(dispatch, token, postId, id);
   },
 });
 

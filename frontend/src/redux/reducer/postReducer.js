@@ -7,6 +7,8 @@ import {
   DELETE_POST,
   ADD_COMMENT,
   DELETE_COMMENT,
+  AR_LIKE_COMMENT,
+  AR_DISLIKE_COMMENT,
 } from "../actions/types";
 const initialState = {
   posts: [],
@@ -29,6 +31,8 @@ export default function (state = initialState, action) {
     case DELETE_POST:
     case ADD_COMMENT:
     case DELETE_COMMENT:
+    case AR_LIKE_COMMENT:
+    case AR_DISLIKE_COMMENT:
       return {
         ...state,
         posts: action.payload,

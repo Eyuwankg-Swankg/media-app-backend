@@ -7,6 +7,8 @@ import {
   DELETE_POST,
   ADD_COMMENT,
   DELETE_COMMENT,
+  AR_LIKE_COMMENT,
+  AR_DISLIKE_COMMENT,
 } from "../actions/types";
 import axios from "axios";
 export const getPosts = async (dispatch, token) => {
@@ -102,7 +104,7 @@ export const deleteCommentAction = (dispatch, token, postId, id) => {
   axios
     .delete(
       `http://localhost:5000/post/delcomment/${postId}/${id}`,
-      
+
       {
         headers: {
           Authorization: token,
@@ -111,4 +113,40 @@ export const deleteCommentAction = (dispatch, token, postId, id) => {
     )
     .then((posts) => dispatch({ type: DELETE_COMMENT, payload: posts.data }))
     .catch((err) => console.log("Error ", err));
+};
+
+export const likeCommentAction = (dispatch, token, postId, id) => {
+  axios
+    .put(
+      `http://localhost:5000/post/likecomment/${postId}/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+    .then((posts) => {
+      dispatch({ type: AR_LIKE_COMMENT, payload: posts.data });
+    })
+    .catch((err) => console.log("Error ", err));
+  return;
+};
+
+export const disLikeCommentAction = (dispatch, token, postId, id) => {
+  axios
+    .put(
+      `http://localhost:5000/post/dislikecomment/${postId}/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+    .then((posts) => {
+      dispatch({ type: AR_DISLIKE_COMMENT, payload: posts.data });
+    })
+    .catch((err) => console.log("Error ", err));
+  return;
 };

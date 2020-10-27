@@ -190,7 +190,9 @@ router.delete(
         post
           .save()
           .then((post) => {
-            Post.find().then((posts) => res.json(posts));
+            Post.find()
+              .then((posts) => res.json(posts))
+              .catch((err) => console.log(err));
           })
           .catch((err) =>
             console.log("Error while saving post in DB after deleting comment")
@@ -228,7 +230,11 @@ router.put(
         }
         post
           .save()
-          .then((post) => res.json(post))
+          .then((post) => {
+            Post.find()
+              .then((posts) => res.json(posts))
+              .catch((err) => console.log(err));
+          })
           .catch((err) =>
             console.log("Error while updating likes in post comment")
           );
@@ -265,7 +271,11 @@ router.put(
         }
         post
           .save()
-          .then((post) => res.json(post))
+          .then((post) => {
+            Post.find()
+              .then((posts) => res.json(posts))
+              .catch((err) => console.log(err));
+          })
           .catch((err) =>
             console.log("Error while updating dislikes in post comment")
           );
