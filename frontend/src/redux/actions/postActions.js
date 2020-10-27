@@ -4,7 +4,9 @@ import {
   LOADED,
   ADD_LIKE,
   ADD_DISLIKE,
-  DELETE_POST,ADD_COMMENT
+  DELETE_POST,
+  ADD_COMMENT,
+  DELETE_COMMENT,
 } from "../actions/types";
 import axios from "axios";
 export const getPosts = async (dispatch, token) => {
@@ -94,4 +96,19 @@ export const addCommentAction = (dispatch, id, token, text) => {
     })
     .catch((err) => console.log("Error ", err));
   return;
+};
+
+export const deleteCommentAction = (dispatch, token, postId, id) => {
+  axios
+    .delete(
+      `http://localhost:5000/post/delcomment/${postId}/${id}`,
+      
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+    .then((posts) => dispatch({ type: DELETE_COMMENT, payload: posts.data }))
+    .catch((err) => console.log("Error ", err));
 };

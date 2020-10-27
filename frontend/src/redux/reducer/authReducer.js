@@ -1,14 +1,14 @@
 import { SIGNIN, SIGNUP, LOGGEDIN } from "../actions/types";
 const initialState = {
   token:
-    "Nodejs eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmOTMyZWQ0ODA5YWFlMmQwNDA2ZDFiMCIsIm5hbWUiOiJrYXJ0aGlrIiwiZW1haWwiOiJrYXJ0aGlrQGdtYWlsLmNvbSIsImlhdCI6MTYwMzc4NjQxNSwiZXhwIjoxNjAzNzkwMDE1fQ.0zhpBhTuLDTNg20dRwnzz7i6kMwNNMkCA0oyh9fsecE",
+    "Nodejs eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmOTMyNDBjNjg0NzljMDk0ODk3NzhmYiIsIm5hbWUiOiJleXV3YW5rZyIsImVtYWlsIjoiZXl1d2Fua2dAZ21haWwuY29tIiwiaWF0IjoxNjAzNzg5NTAxLCJleHAiOjE2MDM3OTMxMDF9.IRhu8f8aAmiDCphN_6jvmXkad0bmEtpm-knBqRqlO9A",
   data: {
     profilePic: "../public/user.png",
     gender: "",
-    _id: "5f932ed4809aae2d0406d1b0",
-    name: "karthik",
-    email: "karthik@gmail.com",
-    date: "2020-10-23T19:28:20.714Z",
+    _id: "5f93240c68479c09489778fb",
+    name: "eyuwankg",
+    email: "eyuwankg@gmail.com",
+    date: "2020-10-23T18:42:20.338Z",
     __v: 0,
   },
 };
