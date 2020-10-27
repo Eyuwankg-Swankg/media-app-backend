@@ -163,7 +163,7 @@ router.patch(
           .then((post) => {
             Post.find()
               .then((posts) => res.json(posts))
-              .catch(err=>console.log(err));
+              .catch((err) => console.log(err));
           })
           .catch((err) => console.log("Error while saving comment in post "));
       })
@@ -189,7 +189,9 @@ router.delete(
         post.comments.splice(commentIndex, 1);
         post
           .save()
-          .then((post) => res.json(post))
+          .then((post) => {
+            Post.find().then((posts) => res.json(posts));
+          })
           .catch((err) =>
             console.log("Error while saving post in DB after deleting comment")
           );

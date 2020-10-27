@@ -140,6 +140,11 @@ class Post extends Component {
             {this.props.post.comments.map((comment, index) => (
               <div className="ith-comment">
                 <p>{comment.text}</p>
+                {comment.user == this.props.userData._id ? (
+                  <AiOutlineDelete />
+                ) : (
+                  <></>
+                )}
                 <div>
                   <BiLike />
                   <BiDislike />
