@@ -139,3 +139,27 @@ body {
   display: flex;
   justify-content: space-around;
 }
+
+/* ADD POST MODAL */
+.addpost-modal {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-post-container {
+  padding: 2rem;
+  background-color: #d69559c2;
+  width: 40rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}

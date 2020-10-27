@@ -1,20 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Spinner } from "reactstrap";
+import { Spinner, Label, Input, Form, FormGroup, Button } from "reactstrap";
 import { getPosts } from "./../redux/actions/postActions";
+import FormData from "form-data";
 import Header from "./Header";
 import Post from "./Post";
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.getPosts = this.getPosts.bind(this);
+    this.state = {
+      title: "",
+      caption: "",
+      file: null,
+    };
+    this.onSubmitPost = this.onSubmitPost.bind(this);
   }
   componentWillMount() {
     this.props.allPosts(this.props.userToken);
   }
-  getPosts() {
-    console.log(this.props.posts);
+  onSubmitPost(e) {
+    e.preventDefault();
+    var formData = new FormData();
+    formData.append("hi", "how");
+    console.log(formData);
   }
   render() {
     const Modalstyle = {
@@ -40,6 +49,81 @@ class Home extends Component {
               index={index}
             />
           ))}
+        </div>
+        <div className="addpost-modal">
+          <Form className="add-post-container" onSubmit={this.onSubmitPost}>
+            <FormGroup>
+              <Label
+                for="post-title"
+                style={{
+                  letterSpacing: "2px",
+                  fontWeight: "bold",
+                  color: "snow",
+                  fontSize: "1.4rem",
+                }}
+              >
+                Title
+              </Label>
+              <Input
+                type="text"
+                name="text"
+                id="post-title"
+                value={this.state.title}
+                onChange={(e) => this.setState({ title: e.target.value })}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label
+                for="post-caption"
+                style={{
+                  letterSpacing: "2px",
+                  fontWeight: "bold",
+                  color: "snow",
+                  fontSize: "1.4rem",
+                }}
+              >
+                Caption
+              </Label>
+              <Input
+                type="textarea"
+                name="text"
+                id="post-caption"
+                value={this.state.caption}
+                onChange={(e) => this.setState({ caption: e.target.value })}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label
+                for="post-image"
+                style={{
+                  letterSpacing: "2px",
+                  fontWeight: "bold",
+                  color: "snow",
+                  fontSize: "1.4rem",
+                }}
+              >
+                Upload Image
+              </Label>
+              <Input
+                type="file"
+                name="file"
+                id="post-image"
+                value={this.state.fileName}
+                onChange={(e) => this.setState({ file: e.target.files[0] })}
+              />
+            </FormGroup>
+            <Button
+              style={{
+                letterSpacing: "2px",
+                fontWeight: "bold",
+                color: "snow",
+                fontSize: "1.4rem",
+                backgroundColor: "#d69559",
+              }}
+            >
+              Submit
+            </Button>
+          </Form>
         </div>
       </div>
     );

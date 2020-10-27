@@ -13,15 +13,20 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const post = {
-      user: req.user.id,
-      heading: req.body.heading,
-      caption: req.body.caption,
-      img: req.body.img,
-    };
-    savePost(post)
-      .then((post) => res.json(post))
-      .catch((err) => console.log("Error while saving post in DB"));
+    console.log(req.body);
+    // const post = {
+    //   user: req.user.id,
+    //   heading: req.body.heading,
+    //   caption: req.body.caption,
+    //   img: req.body.img,
+    // };
+    // savePost(post)
+    //   .then((post) => {
+    //     Post.find()
+    //       .then((posts) => res.json(posts))
+    //       .catch((err) => console.log(err));
+    //   })
+    //   .catch((err) => console.log("Error while saving post in DB"));
   }
 );
 

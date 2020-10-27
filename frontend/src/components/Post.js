@@ -31,7 +31,7 @@ class Post extends Component {
     this.state = {
       like: false,
       dislike: false,
-      comment: true,
+      comment: false,
       commentText: "",
     };
     this.updateDislike = this.updateDislike.bind(this);
